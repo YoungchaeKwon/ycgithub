@@ -1,0 +1,141 @@
+<html>
+<head>
+
+    <style>
+        body {
+            background-color: antiquewhite;
+        }
+
+        #all {
+            margin: auto;
+            width: 80%;
+            border: 3px solid antiquewhite;
+            padding: 10px;
+        }
+
+        #form {
+            margin: auto;
+            width: 80%;
+            border: 3px solid;
+            border-color: bisque;
+            padding: 10px;
+            background-color: white;
+        }
+
+        h3 {
+            margin: auto;
+            height: auto;
+            width: 50%;
+        }
+    </style>
+
+
+
+
+    <title>team4-register</title>
+
+    <meta name="description" content="My Parse App" />
+    <meta name="viewport" content="width=device-width" />
+<script src="all.js"/>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://www.parsecdn.com/js/parse-latest.js"></script>
+
+    <!-- Include meta tag to ensure proper rendering and touch zooming -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Include jQuery Mobile stylesheets -->
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <!-- Include the jQuery library -->
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- Include the jQuery Mobile library -->
+    <script>
+$(document).bind('mobileinit',function(){
+    $.mobile.changePage.defaults.changeHash = false;
+    $.mobile.hashListeningEnabled = false;
+    $.mobile.pushStateEnabled = false;
+});
+    </script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script>
+$(document).ready(function(){
+	
+    Parse.initialize("xWe3eeJ882Tqx488xN5I7GThshdRNx5wUWkRxleI", "SELANk58Gucf4HUSpnJPRv5nSmP1zvHoPIZHkpCs");
+
+
+    var currentUser = Parse.User.current();
+    if (currentUser) {
+    	
+    	 $("#btndisconnection").click(function(){
+    	 var userID = currentUser.get("username");
+         var vehicle_code = currentUser.get("vehiclecode");
+  //103�߰�  	 
+        $.post("http://sweyoon.ivyro.net/msg.php", {
+            "flag": "103", "user_id": userID, "vehicle_code": vehicle_code,
+        },
+                      function (data, status) {
+
+
+                          var obj = JSON.parse(data);
+
+                         
+                          if (obj.flag == "299") {//error
+                              alert("error �߻�  \nStatus: " + obj.flag);
+                          }
+                          else if (obj.flag == "200") {
+                              alert("communication server�� ������ �����Ͽ����ϴ�.   \nStatus: " + obj.flags);
+                          }
+                          else if (obj.flag == "201") {
+                              alert("�ڵ������غ� �����͸� �����Ͽ����ϴ�.   \nStatus: " + obj.flag);
+                          }
+                          else if (obj.flag == "202") { //end connection 
+                              alert("end connection :  " + obj.flag);
+                          }
+                          else if (obj.flag == "203") { //battery // ���͸� parse���ٰ� �߰�������ϳ�???? update???
+                              alert("���͸���?: ");
+                              currentUser.set("battery",obj.battery);
+                          }
+
+                      });//post
+    	
+  
+       // document.getElementById("currentname").innerHTML = currentUser.id;
+    	});//click
+       
+    }//if
+       
+
+});//ready
+    </script>
+
+
+
+
+</head>
+
+<body>
+
+
+    <div id="all">
+
+
+        <h3>Main Page</h3>
+        <div data-role="page" id="pageone">
+            <div data-role="header">
+                <h1>Setting</h1>
+            </div>
+
+            <div data-role="main" class="ui-content">
+<h3 id = h3battery>  </h3>
+          <button id = "btndisconnection"> disconnection </button>      
+          
+
+        </div>
+
+        <div data-role="footer">
+             <p>2015-2 Sofrware Engineering </br> #team4</p>
+        </div>
+    </div>
+     </div>
+
+</body>
+
+</html>

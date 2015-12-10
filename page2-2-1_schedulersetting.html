@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <style>
+
+    </style>
+<script src="all.js"/>
+    <!-- Include meta tag to ensure proper rendering and touch zooming -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Include jQuery Mobile stylesheets -->
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <!-- Include the jQuery library -->
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- Include the jQuery Mobile library -->
+    <script>
+$(document).bind('mobileinit',function(){
+    $.mobile.changePage.defaults.changeHash = false;
+    $.mobile.hashListeningEnabled = false;
+    $.mobile.pushStateEnabled = false;
+});
+    </script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#btnadd").click(function () {
+                var $title = $("#title").val();
+                var $newString = $title;
+                var haa = $("<li></li>").text($newString);
+                $("ul").append(haa);
+                $(haa).hide().fadeIn(200);
+                var delBtn = $("<button></button>").text("X");
+                delBtn.bind('click', function () {
+                    haa.fadeOut(200, function () { $(this).remove(); });
+                });
+                $(haa).append(delBtn);
+
+            });
+
+        });
+
+
+
+    </script>
+</head>
+
+
+
+
+<body>
+
+    <div data-role="page" id="pageone">
+        <div data-role="header">
+            <h1>scheduler setting</h1>
+        </div>
+
+        <div data-role="main" class="ui-content">
+        <h3 id = h3battery>  </h3>
+       
+            
+            </section>
+            <p><label>어구 추가<input type="text" id="title" /></label></p>
+            <p><label><input type="button" value="Add" id="btnadd" /></label></p>
+
+            </br>
+            <section id="schedule">
+                <ul></ul>
+</div>
+
+        <div data-role="footer">
+             <p>2015-2 Sofrware Engineering </br> #team4</p>
+        </div>
+    </div>
+
+
+
+
+
+</body>
+</html>

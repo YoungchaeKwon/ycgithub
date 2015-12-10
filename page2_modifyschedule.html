@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<script src="all.js"></script>
+<script src ="modify.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://www.parsecdn.com/js/parse-latest.js"></script>
+    <script type="text/javascript">
+    function myFunction() {
+
+    
+    function getCookie() {
+       var ca = document.cookie.split("*");
+       return ca;
+    }
+    var cookiee = getCookie();
+ 
+    setDefault(cookiee);
+   
+    function setDefault(cookiee){
+    
+    //	alert("쿠키받아왔습니까bbb????: "+ cookiee[2]);
+    	var txt = cookiee[1];
+    	document.getElementById("sch_name").value = cookiee[1]; 
+    	document.getElementById("sch_date").value= cookiee[2];
+    	
+        document.getElementById("sch_st").value= cookiee[3];
+        document.getElementById("sch_et").value= cookiee[4];
+    
+    
+    }
+  //  document.getElementById("currentname").innerHTML = currentUser.id;
+
+    }
+
+    /////////////////////
+
+        function saveParse() {
+
+            Parse.initialize("xWe3eeJ882Tqx488xN5I7GThshdRNx5wUWkRxleI", "SELANk58Gucf4HUSpnJPRv5nSmP1zvHoPIZHkpCs");
+            var currentUser = Parse.User.current();
+
+
+           
+   
+            if (currentUser) {
+
+                var sch_name = document.getElementById("sch_name").value.toString();
+                var sch_date = document.getElementById("sch_date").value.toString();
+                var sch_st = document.getElementById("sch_st").value.toString();
+                var sch_et = document.getElementById("sch_et").value.toString();
+
+                var test = sch_name + sch_date + sch_st + sch_et;
+               
+
+
+
+
+
+                var Schedule = Parse.Object.extend("Schedule");
+                var schedule = new Schedule();
+                schedule.save({ a_userID: currentUser.id, c_scheduleName: sch_name, d_scheduleStartDay: sch_date, e_scheduleStartTime: sch_st, g_schedulEndTime: sch_et, h_LorG:"Local"+currentUser.id }).then(function (object) {
+                    alert("yay! it worked");
+                    location.href = "page2-2_schedulermain.html";
+                });
+
+
+            }
+
+        
+
+     else {
+    location.href = "page1_login.html";
+    }}
+    
+    </script>
+
+
+
+
+
+       <!-- Include meta tag to ensure proper rendering and touch zooming -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Include jQuery Mobile stylesheets -->
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <!-- Include the jQuery library -->
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- Include the jQuery Mobile library -->
+    <script>
+        $(document).bind('mobileinit',function(){
+            $.mobile.changePage.defaults.changeHash = false;
+            $.mobile.hashListeningEnabled = false;
+            $.mobile.pushStateEnabled = false;
+        });
+    </script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+    <script src="https://apis.google.com/js/client.js?onload=checkAuth">
+    </script>
+
+
+
+
+
+
+
+</head>
+
+<body onload="myFunction()">
+
+
+    <div id="all">
+
+
+        <h3>Main Page</h3>
+        <div data-role="page" id="pageone">
+            <div data-role="header">
+                <h1>Modify schedule</h1>
+            </div>
+
+            <div data-role="main" class="ui-content">
+				<h3 id = h3battery>  </h3>
+                <p id="currentname"></p>
+               <p>addpage!!!!</p>
+
+                <p>
+                    <form id="form">
+
+
+                </p>
+                <p>
+                    <label>
+                        schedule name</br>
+                        <input id="sch_name" type="text" name="sn"  readonly required />
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        date:</br>
+                        <input id="sch_date" type="date" name="date" required />
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        start time:</br>
+                        <input id="sch_st" type="time" name="st" required />
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        end time:</br>
+                        <input id="sch_et" type="time" name="et" required />
+                    </label>
+                </p>
+
+
+                <p>
+                    <input id="submit" type="button" onclick="saveParse()" value="register" />
+                </p>
+
+                </form>
+
+
+
+                
+
+
+
+            </div>
+
+            <div data-role="footer">
+                 <p>2015-2 Sofrware Engineering </br> #team4</p>
+            </div>
+        </div>
+
+</body>
+<script>
+   
+
+
+
+
+</script>
+</html>

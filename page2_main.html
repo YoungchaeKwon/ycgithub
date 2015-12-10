@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<script src="all.js"></script>
+
+		<style>
+			body {
+				background-color: antiquewhite;
+			}
+
+		</style>
+
+		<title>team4-mainpage</title>
+
+		<meta name="description" content="My Parse App" />
+		<meta name="viewport" content="width=device-width" />
+
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script type="text/javascript" src="http://www.parsecdn.com/js/parse-latest.js"></script>
+
+		<!-- Include meta tag to ensure proper rendering and touch zooming -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Include jQuery Mobile stylesheets -->
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+		<!-- Include the jQuery library -->
+		<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+		<!-- Include the jQuery Mobile library -->
+		<script>
+			$(document).bind('mobileinit', function() {
+				$.mobile.changePage.defaults.changeHash = false;
+				$.mobile.hashListeningEnabled = false;
+				$.mobile.pushStateEnabled = false;
+			});
+		</script>
+
+		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+	</head>
+
+	<body>
+
+		<div id="all">
+
+			<h3>Main Page</h3>
+			<div data-role="page" id="pageone">
+				<div data-role="header">
+					<h1>main</h1>
+				</div>
+
+				<div data-role="main" class="ui-content">
+
+					<h3 id = h3battery></h3>
+
+					<p id="currentname"></p>
+
+					<button id="btnstart" onclick="start()">
+						Engine Start!!!!!!
+					</button>
+					</br>
+					<button id="btnsystemsetting" onclick="systemsetting()">
+						system setting
+					</button>
+					</br>
+					<button id="btnschedulermain" onclick="schedulermain()">
+						schedulermain
+					</button>
+					</br>
+					
+
+				</div>
+
+				<div data-role="footer">
+					<p>
+						2015-2 Sofrware Engineering </br> #team4
+					</p>
+				</div>
+			</div>
+
+	</body>
+	<script>
+		Parse.initialize("xWe3eeJ882Tqx488xN5I7GThshdRNx5wUWkRxleI", "SELANk58Gucf4HUSpnJPRv5nSmP1zvHoPIZHkpCs");
+
+		var currentUser = Parse.User.current();
+		if (currentUser) {
+
+			var userID = currentUser.get("username");
+			var vehicle_code = currentUser.get("vehiclecode");
+			var user_name = currentUser.get("username");
+			var temperature = currentUser.get("temperature");
+			var keeping_time = currentUser.get("keepingtime");
+			
+			
+			//alert("keeeeee::"+keeping_time);
+
+			var d = new Date();
+			var t = d.toLocaleTimeString();
+			//document.getElementById("demo").innerHTML = t;
+
+			var d = new Date();
+
+			var c_year = d.getFullYear();
+			var c_month = d.getMonth() + 1;
+			var c_day = d.getDate();
+			var c_hour = d.getHours();
+			var c_min = d.getMinutes()+10;
+
+			var c_day = c_year + "-" + c_month + "-" + c_day;
+			var c_time = c_hour + ":" + c_min;
+			// appendPre("c_day: " + c_day);
+			// appendPre("c_day: " + c_time);
+			var c_schedule = c_day + "-" + c_time;
+
+			function start() {
+
+		/*		$.post("http://sweyoon.ivyro.net/index.php", {
+					"flag" : "102",
+					"user_id" : userID,
+					"vehicle_code" : vehicle_code,
+					"departure_time" : c_schedule,
+					"destination" : "  ",
+					"target_temperature" : temperature,
+					"keeping_time" : keeping_time
+				}, function(data, status) {
+
+					var obj = JSON.parse(data);
+					//시간이 1분단위이면 같은 데이터가 6번 보내짐
+					//임시
+					if (obj.flag == "299") {//error
+						alert("flag 102:: error 발생  \nStatus: " + obj.flag);
+					} else if (obj.flag == "200") {
+						alert("flag 102:: communication server에 정보를 전송하였습니다.   \nStatus: " + obj.flags);
+					} else if (obj.flag == "201") {
+						alert("flag 102:: 자동운행준비 데이터를 전송하였습니다.   \nStatus: " + obj.flag);
+					} else if (obj.flag == "202") {//end connection
+						alert("flag 102:: 연결을 해제하였습니다." + obj.flag);
+					} else if (obj.flag == "203") {//battery // 배터리 parse에다가 추가해줘야하나???? update???
+						alert("flag 102:: 배터리량?: ");
+						currentUser.set("battery", obj.battery);
+						document.getElementById("h3battery").innerHTML = "battery of vehicle: " + obj.battery;
+					}
+
+				});*/
+				
+				 $.post("http://sweyoon.ivyro.net/msg.php", {
+                        "flag": "102", "user_id": userID, "vehicle_code": vehicle_code,"departure_time" : c_schedule,
+					"destination" : "  ",
+					"target_temperature" : temperature,
+					"keeping_time" : keeping_time
+                    },
+                                  function (data, status) {
+
+
+                                      var obj = JSON.parse(data);
+
+                                     
+                                      if (obj.flag == "299") {//error
+                                          alert("right now flag 123:: error 발생  \nStatus: " + obj.error);
+                                      }
+                                      else if (obj.flag == "200") {
+                                          alert("right now flag 123:: communication server에 정보를 전송하였습니다.   \nStatus: " + obj.flags);
+                                      }
+                                      else if (obj.flag == "201") {
+                                          alert("right now flag 123:: 자동운행준비 데이터를 전송하였습니다.   \nStatus: " + obj.flag);
+                                      }
+                                      else if (obj.flag == "202") { //end connection 
+                                          alert("right now flag 123:: 연결을 해제하였습니다." + obj.flag);
+                                      }
+                                      else if (obj.flag == "203") { //battery // 배터리 parse에다가 추가해줘야하나???? update???
+                                           alert("flag 102:: 배터리량?: "+obj.battery +"차량내부온도" +obj.target_temperature);
+                                          currentUser.set("battery",obj.battery);
+                                          document.getElementById("h3battery").innerHTML = "battery of vehicle: " + obj.battery
+                                          										+ " temperature: " +obj.target_temperature; 
+                                          										 }
+
+                                  });
+
+			}
+
+			function systemsetting() {
+
+				location.href = "page2-1_systemsetting.html";
+
+			}
+
+			function schedulermain() {
+
+				location.href = "page2-2_schedulermain.html";
+
+			}
+
+			
+
+		} else {
+			location.href = "page1_login.html";
+		}
+
+	</script>
+</html>

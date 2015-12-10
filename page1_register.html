@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <style>
+        body {
+            background-color: antiquewhite;
+        }
+    </style>
+
+
+
+
+    <title>team4-register</title>
+
+    <meta name="description" content="My Parse App" />
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript"
+            src="http://www.parsecdn.com/js/parse-latest.js"></script>
+
+    <!-- Include meta tag to ensure proper rendering and touch zooming -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Include jQuery Mobile stylesheets -->
+    <link rel="stylesheet"
+          href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <!-- Include the jQuery library -->
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- Include the jQuery Mobile library -->
+    <script>
+        $(document).bind('mobileinit',function(){
+            $.mobile.changePage.defaults.changeHash = false;
+            $.mobile.hashListeningEnabled = false;
+            $.mobile.pushStateEnabled = false;
+        });
+    </script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+
+    <div id="all">
+
+
+        <h3>register your account!</h3>
+
+
+        <div data-role="page" id="pageone">
+            <div data-role="header">
+                <h1>register</h1>
+            </div>
+
+            <div data-role="main" class="ui-content">
+
+                <p>
+                    <form id="form">
+                </p>
+                <p>
+                    <label>
+                        Vehicle code</br> <input id="user_vc" type="text"
+                                                  name="vc" required  pattern=".{11,12}" title="Eleven characters"/>
+                    </label>
+                </p> 
+                <p>
+                    <label>
+                        User name:</br> <input id="user_name" type="text"
+                                               name="name" required  pattern="[a-z0-9]{6,30}" title="6~30 characters" />
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        User password:</br> <input id="user_pw" type="password"
+                                                   name="pw" required  pattern="[a-z0-9]{6,30}" title="6~30 characters" />
+                    </label>
+                </p>
+                <p>
+                    <input id="submit" type="submit" onclick="saveParse()"
+                           value="register" />
+                </p>
+
+                </form>
+
+            </div>
+
+            <div data-role="footer">
+                <p>
+                    2015-2 Sofrware Engineering </br> #team4
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <section id="sec"></section>
+    <p id="ddd"></p>
+    <p id="dddd"></p>
+
+</body>
+<script>
+    Parse.initialize("xWe3eeJ882Tqx488xN5I7GThshdRNx5wUWkRxleI", "SELANk58Gucf4HUSpnJPRv5nSmP1zvHoPIZHkpCs");
+
+
+    function saveParse() {
+
+        var vehiclecode = document.getElementById("user_vc").value;
+        var username = document.getElementById("user_name").value;
+        var userpassword = document.getElementById("user_pw").value;
+        //   var temperature = "24";
+
+        //   document.getElementById("user_vc").value = "";
+        //     document.getElementById("user_name").value = "";
+        //    document.getElementById("user_pw").value = "";
+
+
+        if ( username.length.toString() > 0 && userpassword.length.toString() > 0) {
+
+            //    var user = new Parse.User();
+
+
+            $.post("http://sweyoon.ivyro.net/msg.php", { "flag": "101", "user_id": username, "user_mac": "12:12:12:12:12", "vehicle_code": vehiclecode },
+                            function (data, status) {
+
+                                var obj = JSON.parse(data);
+
+                                alert("받아라!!!!!!!!!!!!!!!!!!!!: " + obj.flag);
+
+
+                                if (obj.flag == "299") {//error
+                                    alert("flag 101:: error 발생  \nStatus: " + obj.flag + " : " + obj.error);
+                                }
+                                else if (obj.flag == "200") {
+                                    //setting();
+                                     Parse.User.logOut();
+                                    var user = new Parse.User();
+                                    user.set("username", username);
+                                    user.set("password", userpassword);
+                                    user.set("vehiclecode", vehiclecode);
+                                    user.set("temperature", "24");
+                                    user.set("keepingtime", "3");
+                                    user.set("flag", "true");
+
+                                    user.signUp(null, {
+                                        success: function (user) {
+                                            alert("Welcome!!!!");
+                                        },
+                                        error: function (user, error) {
+                                            // Show the error message somewhere and let the user try again.
+                                            alert("Error: " + error.code + " " + error.message);
+                                        }
+                                        
+                                        
+                                    });
+
+                                   
+                                    alert("flag 101:: communication server에 정보를 전송하였습니다.   \nStatus: " + obj.flag);
+                                  //  event.preventDefault();
+                                    location.href = "page1_login.html";
+                                }
+                                else if (obj.flag == "201") {
+
+                                   
+                                    alert("flag 101:: 자동운행준비 데이터를 전송하였습니다.   \nStatus: " + obj.flag);
+                                }
+                                else if (obj.flag == "202") { //end connection
+                                    alert("flag 101:: 연결을 해제하였습니다." + obj.flag);
+                                }
+                                else if (obj.flag == "203") { //battery // 배터리 parse에다가 추가해줘야하나???? update???
+                                    alert("flag 101:: 배터리량?: " + obj.flag);
+                                              Parse.User.logOut();
+                                    var user = new Parse.User();
+                                    user.set("username", username);
+                                    user.set("password", userpassword);
+                                    user.set("vehiclecode", vehiclecode);
+                                    user.set("temperature", "24");
+                                    user.set("keepingtime", "3");
+                                    user.set("flag", "true");
+
+                                    user.signUp(null, {
+                                        success: function (user) {
+                                            alert("Welcome!!!!");
+                                        },
+                                        error: function (user, error) {
+                                            // Show the error message somewhere and let the user try again.
+                                            alert("Error: " + error.code + " " + error.message);
+                                        }
+                                        
+                                        
+                                    });
+                                }
+                                // location.href = "page1_login.html";
+                                //통신
+
+
+                                //임시
+                                //  location.href = "page1_login.html";
+                            });
+
+        }
+        
+
+    }
+
+
+
+</script>
+</html>

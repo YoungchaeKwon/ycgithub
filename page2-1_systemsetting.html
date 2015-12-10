@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<script src="all.js"/>
+
+    <style>
+        body {
+            background-color: antiquewhite;
+        }
+
+
+    </style>
+
+
+
+
+    <title>team4-register</title>
+
+    <meta name="description" content="My Parse App" />
+    <meta name="viewport" content="width=device-width" />
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://www.parsecdn.com/js/parse-latest.js"></script>
+
+
+
+    
+
+
+
+
+
+
+
+    <!-- Include meta tag to ensure proper rendering and touch zooming -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Include jQuery Mobile stylesheets -->
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <!-- Include the jQuery library -->
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- Include the jQuery Mobile library -->
+    <script>
+        $(document).bind('mobileinit', function () {
+            $.mobile.changePage.defaults.changeHash = false;
+            $.mobile.hashListeningEnabled = false;
+            $.mobile.pushStateEnabled = false;
+        });
+    </script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+    <script src="https://apis.google.com/js/client.js?onload=checkAuth">
+    </script>
+ 
+
+
+
+</head>
+
+<body>
+
+
+    <div id="all">
+
+
+        <h3>system setting</h3>
+
+
+      
+
+
+        <div data-role="page" id="pageone">
+            <div data-role="header">
+                <h1>system setting</h1>
+            </div>
+
+            <div data-role="main" class="ui-content">
+<h3 id = h3battery>  </h3>
+                <p id="currentname"></p>
+
+                <button id="btnsubmit" onclick="submit()">submit</button>
+
+                <label>temperature<input type="range" min="16" max="30"  id="inputtemperature" /></label>
+                <label>keeping time<input type="range" min="2" max="10"  id="inputkeepingtime" /></label>
+
+                <p id="ddd"></p>
+
+            </div>
+
+            <div data-role="footer">
+                 <p>2015-2 Sofrware Engineering </br> #team4</p>
+            </div>
+        </div>
+
+</body>
+
+<script>
+
+       
+    Parse.initialize("xWe3eeJ882Tqx488xN5I7GThshdRNx5wUWkRxleI", "SELANk58Gucf4HUSpnJPRv5nSmP1zvHoPIZHkpCs");
+
+
+
+    var currentUser = Parse.User.current();
+    if (currentUser) {
+
+        
+           
+            document.getElementById("inputtemperature").setAttribute("value", currentUser.get("temperature"))
+             document.getElementById("inputkeepingtime").setAttribute("value", currentUser.get("keepingtime"))
+            //////////////////////////////default  value설정하기
+
+            //var query = new Parse.Query("User");
+            /* currentUser.equalTo("username", currentUser.id);
+     
+             currentUser.find().then(function (results) {
+     
+                 var promise = Parse.Promise.as();
+     
+                 for (var i = 0; i < results.length; i++) {
+                     var result = results[i];
+     
+                     document.getElementById("inputtemperature").setAttribute("value",result.get("temperature"))
+     
+     
+                 }
+     
+     
+                 return promise;
+     
+             }).then(function () {
+                 // Every comment was deleted.
+             });
+             */
+
+
+
+        
+
+        function submit() {
+
+
+            var temperature = document.getElementById("inputtemperature").value;
+            var keepingtime = document.getElementById("inputkeepingtime").value;
+          
+
+            currentUser.set("temperature", temperature);
+            currentUser.set("keepingtime", keepingtime);
+            //
+          currentUser.save(null, {
+                success: function (currentUser) {
+
+                    currentUser.save();
+                  //  document.getElementById("inputtemperature").setAttribute("value", currentUser.get("temperature"));
+                }
+            });
+         
+           
+          location.href = "page2_main.html";
+
+        }
+
+
+
+    } else {
+        location.href = "page1_login.html";
+    }
+
+
+
+
+</script>
+
+</html>

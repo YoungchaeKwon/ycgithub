@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <style>
+        body {
+            background-color: antiquewhite;
+        }
+
+</style>
+
+
+
+
+    <title>team4-Login</title>
+
+    <meta name="description" content="My Parse App" />
+    <meta name="viewport" content="width=device-width" />
+	
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://www.parsecdn.com/js/parse-latest.js"></script>
+
+     <!-- Include meta tag to ensure proper rendering and touch zooming -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Include jQuery Mobile stylesheets -->
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <!-- Include the jQuery library -->
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- Include the jQuery Mobile library -->
+    <script>
+$(document).bind('mobileinit',function(){
+    $.mobile.changePage.defaults.changeHash = false;
+    $.mobile.hashListeningEnabled = false;
+    $.mobile.pushStateEnabled = false;
+});
+    </script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+
+
+
+
+</head>
+
+<body>
+
+
+    <div id="all">
+
+
+        <h3>Login</h3>
+      
+        <div data-role="page" id="pageone">
+            <div data-role="header">
+                <h1>Login</h1>
+            </div>
+
+            <div data-role="main" class="ui-content">
+
+        <p>
+            <form id="form">
+          
+
+
+        </p>
+     
+        <p>
+            <label>
+                User name:</br>
+                <input id="user_name" type="text" name="name" required pattern="[a-z0-9]{6,30}" title="6~30 characters"/>
+            </label>
+        </p>
+        <p>
+            <label>
+                User password:</br>
+                <input id="user_pw" type="password" name="pw" required pattern="[a-z0-9]{6,30}" title="6~30 characters"/>
+            </label>
+        </p>
+        <p>
+            <input id="submit" type="submit" onclick="login()" value="login"  />
+        </p>
+        <p>
+            <input id="button" type="button"  onclick="register()"value="register" />
+        </p>
+
+        </form>
+       
+         </div>
+
+            <div data-role="footer">
+                <p>2015-2 Sofrware Engineering </br> #team4</p>
+            </div>
+        </div>
+
+    </div>
+
+    <section id="sec"></section>
+    
+</body>
+<script>
+    Parse.initialize("xWe3eeJ882Tqx488xN5I7GThshdRNx5wUWkRxleI", "SELANk58Gucf4HUSpnJPRv5nSmP1zvHoPIZHkpCs");
+
+
+    function login() {
+    	
+    	Parse.User.logOut();
+
+        var username = document.getElementById("user_name").value;
+        var userpassword = document.getElementById("user_pw").value;
+
+
+       
+     //   document.getElementById("user_name").value = "";
+     //   document.getElementById("user_pw").value = "";
+
+
+        if ( username.length.toString() > 0 && userpassword.length.toString() > 0) {
+
+            Parse.User.logIn(username, userpassword, {
+                success: function (user) {
+                    alert("Welcome~");
+                    // location.href = "page2_main.html";
+
+                    var currentUser = Parse.User.current();
+                    if (currentUser) {
+                        // do stuff with the user
+                        location.href = "page2_main.html";
+                    } else {
+                        // show the signup or login page
+                    }
+
+
+
+                },
+                error: function (user, error) {
+                    // The login failed. Check error to see why.
+                    alert("Error: " + error.code + " " + error.message);
+                }
+            });
+
+
+
+        }
+        //event.preventDefault();
+    }
+
+    function register() {
+
+        location.href = "page1_register.html";
+
+
+    }
+
+</script>
+</html>
